@@ -9,7 +9,7 @@ Docker image for running MusicIP MusicMagic — the classic music analysis and m
 Run this command in the same directory as your `compose.yaml`:
 
 ```bash
-wget https://raw.githubusercontent.com/youruser/musicip/main/seccomp.json
+wget https://raw.githubusercontent.com/hb64/musicip-1.8/main/seccomp.json
 ```
 
 > **Why is `seccomp.json` needed?**
