@@ -72,10 +72,11 @@ The MusicIP web interface will be available at `http://localhost:10002`.
 
 Your music is mounted into the container at `/music`, which stays in Linux `/music`. This is the path MusicIP will use to find your library.
 
-**Fresh setup** — when MusicIP asks for your music folder on first run, enter:
+**Fresh setup** — when on the MusicIP interface you see a part ""Add music folder", type :
 ```
 /music
 ```
+And hit the "Add" button on the right side of it
 
 ## Parameters
 
