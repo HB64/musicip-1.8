@@ -76,7 +76,7 @@ Your music is mounted into the container at `/music`, which stays in Linux `/mus
 ```
 /music
 ```
-And hit the "Add" button on the right side of it
+And hit the "Add" button on the right side of it.
 
 ## Parameters
 
