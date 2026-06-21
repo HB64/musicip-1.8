@@ -68,6 +68,15 @@ docker run -d \
 
 The MusicIP web interface will be available at `http://localhost:10002`.
 
+### Music path inside MusicIP
+
+Your music is mounted into the container at `/music`, which stays in Linux `/music`. This is the path MusicIP will use to find your library.
+
+**Fresh setup** — when MusicIP asks for your music folder on first run, enter:
+```
+/music
+```
+
 ## Parameters
 
 | Parameter | Function |
