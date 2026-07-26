@@ -4,18 +4,7 @@ Docker image for running MusicIP MusicMagic — the classic music analysis and m
 
 ## Before you start
 
-### 1. Download the seccomp profile
-
-Run this command in the same directory as your `compose.yaml`:
-
-```bash
-wget https://raw.githubusercontent.com/hb64/musicip-1.8/main/seccomp.json
-```
-
-> **Why is `seccomp.json` needed?**
-> MusicMagicServer is a legacy 32-bit binary that uses a Linux system call (`personality`) which Docker blocks by default. This file adds that single exception to Docker's default security profile — everything else remains unchanged. You can open and inspect the file yourself to verify this.
-
-### 2. Set up the config folder
+### Set up the config folder
 
 Start the container once, then **stop it immediately** and set the correct ownership:
 
@@ -36,8 +25,6 @@ services:
   musicip:
     image: hb1964/musicip-1.8:latest
     container_name: musicip
-    security_opt:
-      - seccomp=./seccomp.json
     environment:
       - PUID=1000
       - PGID=1000
@@ -55,7 +42,6 @@ services:
 ```bash
 docker run -d \
   --name musicip \
-  --security-opt seccomp=./seccomp.json \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=Europe/Amsterdam \
@@ -70,13 +56,14 @@ The MusicIP web interface will be available at `http://localhost:10002`.
 
 ### Music path inside MusicIP
 
-Your music is mounted into the container at `/music`, which stays in Linux `/music`. This is the path MusicIP will use to find your library.
+Your music is mounted into the container at `/music`. This is the path MusicIP will use to find your library, and the "Add music folder" button on the web UI (`http://localhost:10002`) is pre-filled with it — just click Add music, no typing required for a standard setup.
 
-**Fresh setup** — when on the MusicIP interface you see a part ""Add music folder", type :
-```
-/music
-```
-And hit the "Add" button on the right side of it.
+If your setup differs — for example if you mounted your music volume to a different container path instead of `/music` — you'll need to change it in two places so they stay in sync:
+
+1. **compose.yaml** — change the container-side path in the volume mount, e.g. `/path/to/music:/mymusic:ro`.
+2. **Web UI** — tick "Music folder differs from /music" under Add music folder, and enter the matching path yourself (e.g. `/mymusic`).
+
+**Fresh setup** — for a standard `/music` mount, just click Add music in the web UI; the field is already filled with `/music`.
 
 ## Parameters
 
@@ -91,8 +78,6 @@ And hit the "Add" button on the right side of it.
 
 ## Troubleshooting
 
-**Permission errors on volumes** — Make sure `PUID`/`PGID` match the owner of the mounted directories on the host, and that you ran the `chown` command from step 2 after the first start.
-
-**Container won't start / seccomp errors** — Make sure `seccomp.json` is present in the same directory as your `compose.yaml` and was downloaded as shown in step 1.
+**Permission errors on volumes** — Make sure `PUID`/`PGID` match the owner of the mounted directories on the host, and that you ran the `chown` command above after the first start.
 
 **Port conflict** — Change the host port, e.g. `-p 10003:10002`.
