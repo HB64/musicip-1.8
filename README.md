@@ -65,6 +65,22 @@ If your setup differs — for example if you mounted your music volume to a diff
 
 **Fresh setup** — for a standard `/music` mount, just click Add music in the web UI; the field is already filled with `/music`.
 
+## Using with Lyrion Music Server (LMS)
+
+Native MusicIP 1.8 already reports paths in Linux format, so no path translation is needed here. Optionally, you can still install **[MusicMagicCE](https://github.com/HB64/Lyrion-MusicMagic)** — a drop-in replacement for LMS's stock MusicMagic plugin (LMS 9.1.x) — for its other features: a configurable MusicIP host (instead of always `localhost`) and genre filters for MusicIP mixes.
+
+> **Warning:** Remove/disable LMS's built-in **MusicIP** plugin before installing MusicMagicCE. MusicMagicCE is a drop-in *replacement*, not an addition — running both at the same time will conflict.
+
+> **Note:** Running LMS `master`/dev (or a future release built from it)? You don't need MusicMagicCE — the stock **MusicIP** plugin already has a configurable host and genre filters built in natively.
+
+In LMS, go to **Settings → Plugins → Additional Repositories** and add:
+
+\`\`\`
+https://raw.githubusercontent.com/HB64/Lyrion-MusicMagic/main/public.xml
+\`\`\`
+
+Install **MusicMagicCE** from the plugin list. Its Dynamic Path Conversion setting isn't needed for 1.8 — leave it disabled.
+
 ## Parameters
 
 | Parameter | Function |
