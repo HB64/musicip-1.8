@@ -23,7 +23,7 @@ Replace `1000:1000` with your `PUID:PGID` if you use different values.
 ```yaml
 services:
   musicip:
-    image: hb1964/musicip-1.8:latest
+    image: ghcr.io/hb64/musicip-1.8:latest
     container_name: musicip
     environment:
       - PUID=1000
@@ -49,7 +49,7 @@ docker run -d \
   -v /path/to/music:/music \
   -v /path/to/config:/home/musicip/.MusicMagic \
   --restart unless-stopped \
-  hb1964/musicip-1.8:latest
+  ghcr.io/hb64/musicip-1.8:latest
 ```
 
 The MusicIP web interface will be available at `http://localhost:10002`.
