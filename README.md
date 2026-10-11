@@ -23,7 +23,7 @@ Replace `1000:1000` with your `PUID:PGID` if you use different values.
 ```yaml
 services:
   musicip:
-    image: ghcr.io/hb64/musicip-1.8:latest
+    image: hb1964/musicip-1.8:latest
     container_name: musicip
     environment:
       - PUID=1000
@@ -49,7 +49,7 @@ docker run -d \
   -v /path/to/music:/music \
   -v /path/to/config:/home/musicip/.MusicMagic \
   --restart unless-stopped \
-  ghcr.io/hb64/musicip-1.8:latest
+  hb1964/musicip-1.8:latest
 ```
 
 The MusicIP web interface will be available at `http://localhost:10002`.
@@ -65,21 +65,17 @@ If your setup differs — for example if you mounted your music volume to a diff
 
 **Fresh setup** — for a standard `/music` mount, just click Add music in the web UI; the field is already filled with `/music`.
 
-## Using with Lyrion Music Server (LMS)
+### Mix size limits
 
-Native MusicIP 1.8 already reports paths in Linux format, so no path translation is needed here. Optionally, you can still install **[MusicMagicCE](https://github.com/HB64/Lyrion-MusicMagic)** — a drop-in replacement for LMS's stock MusicMagic plugin (LMS 9.1.x) — for its other features: a configurable MusicIP host (instead of always `localhost`) and genre filters for MusicIP mixes.
+The unregistered MusicIP server caps the size of a mix. In this image the bundled `MusicMagicServer` binary is patched to raise those limits:
 
-> **Warning:** Remove/disable LMS's built-in **MusicIP** plugin before installing MusicMagicCE. MusicMagicCE is a drop-in *replacement*, not an addition — running both at the same time will conflict.
+| Mix size type | Original limit | This image |
+|---|---|---|
+| Tracks | 75 | 300 |
+| Minutes | 300 | 1000 |
+| Megabytes | 300 | 1000 |
 
-> **Note:** Running LMS `master`/dev (or a future release built from it)? You don't need MusicMagicCE — the stock **MusicIP** plugin already has a configurable host and genre filters built in natively.
-
-In LMS, go to **Settings → Plugins → Additional Repositories** and add:
-
-\`\`\`
-https://raw.githubusercontent.com/HB64/Lyrion-MusicMagic/main/public.xml
-\`\`\`
-
-Install **MusicMagicCE** from the plugin list. Its Dynamic Path Conversion setting isn't needed for 1.8 — leave it disabled.
+Requests above these values are still capped at the new limit, e.g. `/api/mix?size=300&sizeType=tracks`.
 
 ## Parameters
 
